@@ -20,6 +20,18 @@ class Eq {
   }
 }
 
+class Ne {
+  constructor({ ne }) {
+    this.criteria = ne;
+  }
+
+  match(record) {
+    return entries(this.criteria).every(([opKey, opValue]) => {
+      return record[opKey] !== opValue;
+    });
+  }
+}
+
 class Gt {
   constructor({ gt }) {
     this.criteria = gt;
@@ -72,6 +84,7 @@ const createOperator = (criteria) => {
   const [operatorName] = Object.keys(criteria);
   const operators = {
     'eq': Eq,
+    'ne': Ne,
     'gt': Gt,
     'ge': Ge,
     'lt': Lt,

@@ -2,7 +2,6 @@
 
 - [ ] Implement find on the table entries
   - [ ] Implement relational operators
-    - [ ] not equal to
   - [ ] Implement logical operators
     - [ ] Logical or
     - [ ] Logical and
@@ -17,6 +16,7 @@
 - [x] Implement find on the table entries
   - [x] Implement relational operators
     - [x] equal to
+    - [x] not equal to
     - [x] greater than
     - [x] greater than or equal to
     - [x] less than 

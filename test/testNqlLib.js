@@ -63,6 +63,23 @@ describe('find [Eq]', () => {
   });
 });
 
+describe('find [Ne]', () => {
+  it('should find all records not equal to the criteria', () => {
+    const records = [
+      { id: 1, name: 'john', age: 21 },
+      { id: 2, name: 'hemant', age: 21 },
+    ];
+    const table = new Table({
+      records: records
+    });
+    const expected = [
+      { id: 1, name: 'john', age: 21 },
+    ];
+    const criteria = { ne: { id: 2 } };
+    assert.deepStrictEqual(table.find(criteria), expected);
+  });
+});
+
 describe('find [Gt]', () => {
   it('should find records by greater than', () => {
     const records = [
