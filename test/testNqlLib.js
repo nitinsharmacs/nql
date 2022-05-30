@@ -158,3 +158,46 @@ describe('find [Le]', () => {
     assert.deepStrictEqual(table.find(criteria), expected);
   });
 });
+
+describe('find [or]', () => {
+  it('should find records by less than or greater than', () => {
+    const records = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 2, name: 'john', age: 21 },
+      { id: 3, name: 'hemant', age: 22 },
+      { id: 4, name: 'rehan', age: 23 },
+    ];
+    const table = new Table({
+      records: records
+    });
+    let expected = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 4, name: 'rehan', age: 23 },
+    ];
+    let criteria = { or: [{ lt: { age: 21 } }, { gt: { age: 22 } }] };
+    assert.deepStrictEqual(table.find(criteria), expected);
+
+    expected = [{ id: 1, name: 'john', age: 11 }];
+    criteria = { or: [{ le: { age: 11 } }] };
+    assert.deepStrictEqual(table.find(criteria), expected);
+  });
+
+  it('should find records by less than or not equal to', () => {
+    const records = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 2, name: 'john', age: 21 },
+      { id: 3, name: 'hemant', age: 22 },
+      { id: 4, name: 'rehan', age: 23 },
+    ];
+    const table = new Table({
+      records: records
+    });
+    const expected = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 2, name: 'john', age: 21 },
+      { id: 4, name: 'rehan', age: 23 },
+    ];
+    const criteria = { or: [{ lt: { age: 21 } }, { ne: { age: 22 } }] };
+    assert.deepStrictEqual(table.find(criteria), expected);
+  });
+});

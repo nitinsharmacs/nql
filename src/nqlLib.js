@@ -1,4 +1,6 @@
-const entries = Object.entries;
+const {
+  createOperator
+} = require('./operators.js');
 
 const newId = (tableEntries) => {
   const lastEntry = tableEntries[tableEntries.length - 1];
@@ -6,101 +8,6 @@ const newId = (tableEntries) => {
     return 1;
   }
   return lastEntry.id + 1;
-};
-
-class Eq {
-  constructor({ eq }) {
-    this.criteria = eq;
-  }
-
-  match(record) {
-    return entries(this.criteria).every(([opKey, opValue]) => {
-      return record[opKey] === opValue;
-    });
-  }
-}
-
-class Ne {
-  constructor({ ne }) {
-    this.criteria = ne;
-  }
-
-  match(record) {
-    return entries(this.criteria).every(([opKey, opValue]) => {
-      return record[opKey] !== opValue;
-    });
-  }
-}
-
-class Gt {
-  constructor({ gt }) {
-    this.criteria = gt;
-  }
-
-  match(record) {
-    return entries(this.criteria).every(([opKey, opValue]) => {
-      return record[opKey] > opValue;
-    });
-  }
-}
-
-class Ge {
-  constructor({ ge }) {
-    this.criteria = ge;
-  }
-
-  match(record) {
-    return entries(this.criteria).every(([opKey, opValue]) => {
-      return record[opKey] >= opValue;
-    });
-  }
-}
-
-class Lt {
-  constructor({ lt }) {
-    this.criteria = lt;
-  }
-
-  match(record) {
-    return entries(this.criteria).every(([opKey, opValue]) => {
-      return record[opKey] < opValue;
-    });
-  }
-}
-
-class Le {
-  constructor({ le }) {
-    this.criteria = le;
-  }
-
-  match(record) {
-    return entries(this.criteria).every(([opKey, opValue]) => {
-      return record[opKey] <= opValue;
-    });
-  }
-}
-
-const createOperator = (criteria) => {
-  const [operatorName] = Object.keys(criteria);
-  const operators = {
-    'eq': Eq,
-    'ne': Ne,
-    'gt': Gt,
-    'ge': Ge,
-    'lt': Lt,
-    'le': Le,
-  };
-
-  const Operator = operators[operatorName];
-  if (Operator !== undefined) {
-    return new Operator(criteria);
-  }
-
-  throw {
-    code: 'NOOPENT',
-    message: 'operator not found',
-    operator: operatorName
-  };
 };
 
 const isEmpty = (obj) => {
