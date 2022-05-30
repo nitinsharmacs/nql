@@ -8,12 +8,6 @@ const newId = (tableEntries) => {
   return lastEntry.id + 1;
 };
 
-const insert = (records, newRecord) => {
-  const id = newId(records);
-  records.push({ id, ...newRecord });
-  return records;
-};
-
 class Eq {
   constructor({ eq }) {
     this.criteria = eq;
@@ -66,7 +60,8 @@ const createOperator = (criteria) => {
 
   throw {
     code: 'NOOPENT',
-    message: 'operator not found'
+    message: 'operator not found',
+    operator: operatorName
   };
 };
 
@@ -74,28 +69,24 @@ const isEmpty = (obj) => {
   return Object.keys(obj).length === 0;
 };
 
-const find = (records, criteria) => {
-  if (isEmpty(criteria)) {
-    return records;
-  }
-  const operator = createOperator(criteria);
-  return records.filter(entry => {
-    return operator.match(entry);
-  });
-};
-
 class Table {
-  constructor({ entries }) {
-    this.entries = entries;
+  constructor({ records }) {
+    this.records = records;
   }
-  insert(entry) {
-    return insert(this.entries, entry);
+  insert(record) {
+    const id = newId(this.records);
+    this.records.push({ id, ...record });
+    return this.records;
   }
   find(criteria) {
-    return find(this.entries, criteria);
+    if (isEmpty(criteria)) {
+      return this.records;
+    }
+    const operator = createOperator(criteria);
+    return this.records.filter(record => {
+      return operator.match(record);
+    });
   }
 }
 
-exports.insert = insert;
-exports.find = find;
 exports.Table = Table;
