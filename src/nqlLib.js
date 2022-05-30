@@ -8,66 +8,94 @@ const newId = (tableEntries) => {
   return lastEntry.id + 1;
 };
 
-const insert = (table, entry) => {
-  const id = newId(table.entries);
-  table.entries.push({ id, ...entry });
-  return table;
+const insert = (records, newRecord) => {
+  const id = newId(records);
+  records.push({ id, ...newRecord });
+  return records;
 };
 
-const isRelationalOperator = (field) => {
-  const operators = ['gt', 'ge'];
-  return operators.includes(field);
-};
-
-const gt = (operands, record) => {
-  return entries(operands).every(([opKey, opValue]) => {
-    return record[opKey] > opValue;
-  });
-};
-
-const ge = (operands, record) => {
-  return entries(operands).every(([opKey, opValue]) => {
-    return record[opKey] >= opValue;
-  });
-};
-
-const getPredicate = (operator, operands, record) => {
-  if (operator === 'gt') {
-    return gt(operands, record);
+class Eq {
+  constructor({ eq }) {
+    this.criteria = eq;
   }
 
-  if (operator === 'ge') {
-    return ge(operands, record);
+  match(record) {
+    return entries(this.criteria).every(([opKey, opValue]) => {
+      return record[opKey] === opValue;
+    });
   }
+}
+
+class Gt {
+  constructor({ gt }) {
+    this.criteria = gt;
+  }
+
+  match(record) {
+    return entries(this.criteria).every(([opKey, opValue]) => {
+      return record[opKey] > opValue;
+    });
+  }
+}
+
+class Ge {
+  constructor({ ge }) {
+    this.criteria = ge;
+  }
+
+  match(record) {
+    return entries(this.criteria).every(([opKey, opValue]) => {
+      return record[opKey] >= opValue;
+    });
+  }
+}
+
+const createOperator = (criteria) => {
+  const [operatorName] = Object.keys(criteria);
+  if (operatorName === 'eq') {
+    return new Eq(criteria);
+  }
+
+  if (operatorName === 'gt') {
+    return new Gt(criteria);
+  }
+
+  if (operatorName === 'ge') {
+    return new Ge(criteria);
+  }
+
+  throw {
+    code: 'NOOPENT',
+    message: 'operator not found'
+  };
 };
 
-const doCriteriaMet = (record, criteria) => {
-  return entries(criteria).every(([field, value]) => {
-    let predicate = record[field] === value;
-    if (isRelationalOperator(field)) {
-      predicate = getPredicate(field, value, record);
-    }
-    return predicate;
-  });
+const isEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
 };
 
-const find = (table, criteria) => {
-  return table.entries.filter(entry => {
-    return doCriteriaMet(entry, criteria);
+const find = (records, criteria) => {
+  if (isEmpty(criteria)) {
+    return records;
+  }
+  const operator = createOperator(criteria);
+  return records.filter(entry => {
+    return operator.match(entry);
   });
 };
 
 class Table {
-  constructor(table) {
-    this.entries = table;
+  constructor({ entries }) {
+    this.entries = entries;
   }
   insert(entry) {
-    return insert(this.table, entry);
+    return insert(this.entries, entry);
   }
   find(criteria) {
-    return find(this.table, criteria);
+    return find(this.entries, criteria);
   }
-};
+}
 
 exports.insert = insert;
 exports.find = find;
+exports.Table = Table;

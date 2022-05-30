@@ -10,6 +10,8 @@
 
 # DONE
 
+- [x] Change this.table to this.entries in Table class
+- [x] Relational Operators as class
 - [x] Implement find on the table entries
   - [x] Implement relational operators
     - [x] greater than
