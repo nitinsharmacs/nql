@@ -30,7 +30,7 @@ describe('table insert', () => {
   });
 });
 
-describe('find', () => {
+describe('find [Eq]', () => {
   it('should find the record by the id', () => {
     const records = [
       { id: 1, name: 'john', age: 21 },
@@ -61,7 +61,9 @@ describe('find', () => {
     const criteria = { eq: { age: 21 } };
     assert.deepStrictEqual(table.find(criteria), expected);
   });
+});
 
+describe('find [Gt]', () => {
   it('should find records by greater than', () => {
     const records = [
       { id: 1, name: 'john', age: 21 },
@@ -76,7 +78,9 @@ describe('find', () => {
     const criteria = { gt: { age: 21 } };
     assert.deepStrictEqual(table.find(criteria), expected);
   });
+});
 
+describe('find [Ge]', () => {
   it('should find records by greater than or equal to', () => {
     const records = [
       { id: 1, name: 'john', age: 21 },
@@ -92,5 +96,48 @@ describe('find', () => {
     const criteria = { ge: { age: 21 } };
     assert.deepStrictEqual(table.find(criteria), expected);
   });
+});
 
+describe('find [Lt]', () => {
+  it('should find records by less than', () => {
+    const records = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 2, name: 'hemant', age: 22 },
+    ];
+    const table = new Table({
+      records: records
+    });
+    let expected = [
+      { id: 1, name: 'john', age: 11 },
+    ];
+    let criteria = { lt: { age: 21 } };
+    assert.deepStrictEqual(table.find(criteria), expected);
+
+    expected = [];
+    criteria = { lt: { age: 11 } };
+    assert.deepStrictEqual(table.find(criteria), expected);
+  });
+});
+
+describe('find [Le]', () => {
+  it('should find records by less than or equal to', () => {
+    const records = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 2, name: 'john', age: 21 },
+      { id: 3, name: 'hemant', age: 22 },
+    ];
+    const table = new Table({
+      records: records
+    });
+    let expected = [
+      { id: 1, name: 'john', age: 11 },
+      { id: 2, name: 'john', age: 21 },
+    ];
+    let criteria = { le: { age: 21 } };
+    assert.deepStrictEqual(table.find(criteria), expected);
+
+    expected = [{ id: 1, name: 'john', age: 11 }];
+    criteria = { le: { age: 11 } };
+    assert.deepStrictEqual(table.find(criteria), expected);
+  });
 });

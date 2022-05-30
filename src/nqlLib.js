@@ -44,18 +44,43 @@ class Ge {
   }
 }
 
+class Lt {
+  constructor({ lt }) {
+    this.criteria = lt;
+  }
+
+  match(record) {
+    return entries(this.criteria).every(([opKey, opValue]) => {
+      return record[opKey] < opValue;
+    });
+  }
+}
+
+class Le {
+  constructor({ le }) {
+    this.criteria = le;
+  }
+
+  match(record) {
+    return entries(this.criteria).every(([opKey, opValue]) => {
+      return record[opKey] <= opValue;
+    });
+  }
+}
+
 const createOperator = (criteria) => {
   const [operatorName] = Object.keys(criteria);
-  if (operatorName === 'eq') {
-    return new Eq(criteria);
-  }
+  const operators = {
+    'eq': Eq,
+    'gt': Gt,
+    'ge': Ge,
+    'lt': Lt,
+    'le': Le,
+  };
 
-  if (operatorName === 'gt') {
-    return new Gt(criteria);
-  }
-
-  if (operatorName === 'ge') {
-    return new Ge(criteria);
+  const Operator = operators[operatorName];
+  if (Operator !== undefined) {
+    return new Operator(criteria);
   }
 
   throw {
