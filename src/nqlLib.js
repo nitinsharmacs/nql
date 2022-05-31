@@ -32,7 +32,7 @@ class Table {
     const operators = new Operators();
     const operator = operators.getOperator(criteria);
     return this.records.filter(record => {
-      return operator.match(record);
+      return operator.match(record, operators);
     });
   }
 }

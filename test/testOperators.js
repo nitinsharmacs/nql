@@ -6,6 +6,7 @@ const {
   Ge,
   Lt,
   Le,
+  Or,
   Operators
 } = require('../src/operators.js');
 
@@ -78,6 +79,30 @@ describe('Le', () => {
 
     le = new Le({ le: { age: 20 } });
     assert.strictEqual(le.match(record), false);
+  });
+});
+
+describe('Or', () => {
+  it('should match record by or operator having two operators', () => {
+    const record = { age: 25 };
+    const operators = new Operators();
+    let or = new Or({ or: [{ lt: { age: 21 } }, { gt: { age: 23 } }] });
+    assert.ok(or.match(record, operators));
+
+    or = new Or({ or: [{ gt: { age: 26 } }, { lt: { age: 21 } }] });
+    assert.strictEqual(or.match(record, operators), false);
+  });
+
+  it('should match record by or operator having one operator', () => {
+    const record = { age: 25 };
+    const operators = new Operators();
+    const or = new Or({ or: [{ gt: { age: 23 } }] });
+    assert.ok(or.match(record, operators));
+  });
+
+  it('should check if given operator is or operator', () => {
+    const or = new Or({ or: [] });
+    assert.ok(or.is('or'));
   });
 });
 

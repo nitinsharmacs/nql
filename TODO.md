@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Implement Operator class instead of createOperator
 - [ ] Implement find on the table entries
   - [ ] Implement logical operators
     - [ ] Logical and
@@ -11,6 +10,7 @@
 
 # DONE
 
+- [x] Implement Operator class instead of createOperator
 - [x] Implement logical operators
     - [x] Logical or
 - [x] Change this.table to this.entries in Table class

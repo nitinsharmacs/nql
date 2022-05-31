@@ -103,9 +103,8 @@ class Or {
     this.name = 'or';
     this.operands = or;
   }
-  match(record) {
+  match(record, operators) {
     return this.operands.some(operand => {
-      const operators = new Operators();
       const operator = operators.getOperator(operand);
       return operator.match(record);
     });
@@ -149,4 +148,5 @@ exports.Gt = Gt;
 exports.Ge = Ge;
 exports.Lt = Lt;
 exports.Le = Le;
+exports.Or = Or;
 exports.Operators = Operators;
