@@ -1,7 +1,8 @@
 # TODO
 
-- [ ] Implement find on the table entries
 - [ ] Implement delete on the table entries
+- [ ] Implement update on the table entries
+- [ ] Insert multiple records
 
 # DOING
 
