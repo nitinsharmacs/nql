@@ -7,6 +7,7 @@ const {
   Lt,
   Le,
   Or,
+  And,
   Operators
 } = require('../src/operators.js');
 
@@ -83,7 +84,7 @@ describe('Le', () => {
 });
 
 describe('Or', () => {
-  it('should match record by or operator having two operators', () => {
+  it('should match record by or operator having two operands', () => {
     const record = { age: 25 };
     const operators = new Operators();
     let or = new Or({ or: [{ lt: { age: 21 } }, { gt: { age: 23 } }] });
@@ -93,7 +94,7 @@ describe('Or', () => {
     assert.strictEqual(or.match(record, operators), false);
   });
 
-  it('should match record by or operator having one operator', () => {
+  it('should match record by or operator having one operands', () => {
     const record = { age: 25 };
     const operators = new Operators();
     const or = new Or({ or: [{ gt: { age: 23 } }] });
@@ -103,6 +104,30 @@ describe('Or', () => {
   it('should check if given operator is or operator', () => {
     const or = new Or({ or: [] });
     assert.ok(or.is('or'));
+  });
+});
+
+describe('And', () => {
+  it('should match record by and operator having two operands', () => {
+    const record = { age: 22 };
+    const operators = new Operators();
+    let and = new And({ and: [{ gt: { age: 21 } }, { lt: { age: 23 } }] });
+    assert.ok(and.match(record, operators));
+
+    and = new And({ and: [{ gt: { age: 16 } }, { lt: { age: 21 } }] });
+    assert.strictEqual(and.match(record, operators), false);
+  });
+
+  it('should match record by or operator having one operand', () => {
+    const record = { age: 25 };
+    const operators = new Operators();
+    const and = new And({ and: [{ gt: { age: 23 } }] });
+    assert.ok(and.match(record, operators));
+  });
+
+  it('should check if given operator is or operator', () => {
+    const and = new And({ and: [] });
+    assert.ok(and.is('and'));
   });
 });
 

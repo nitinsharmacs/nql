@@ -2,17 +2,18 @@
 
 - [ ] Implement find on the table entries
   - [ ] Implement logical operators
-    - [ ] Logical and
-- [ ] Pass operators to match of operator (for Or operator)
+    - [ ] Logical not
 - [ ] Implement delete on the table entries
 
 # DOING
 
 # DONE
 
+- [x] Pass operators to match of operator (for Or operator)
 - [x] Implement Operator class instead of createOperator
 - [x] Implement logical operators
     - [x] Logical or
+    - [x] Logical and
 - [x] Change this.table to this.entries in Table class
 - [x] Relational Operators as class
 - [x] Implement find on the table entries

@@ -115,6 +115,23 @@ class Or {
   }
 }
 
+class And {
+  constructor({ and }) {
+    this.name = 'and';
+    this.operands = and;
+  }
+  match(record, operators) {
+    return this.operands.every(operand => {
+      const operator = operators.getOperator(operand);
+      return operator.match(record);
+    });
+  }
+
+  is(operator) {
+    return operator === this.name;
+  }
+}
+
 class Operators {
   constructor() {
     this.operators = {
@@ -124,7 +141,8 @@ class Operators {
       'ge': Ge,
       'lt': Lt,
       'le': Le,
-      'or': Or
+      'or': Or,
+      'and': And
     };
   }
 
@@ -149,4 +167,5 @@ exports.Ge = Ge;
 exports.Lt = Lt;
 exports.Le = Le;
 exports.Or = Or;
+exports.And = And;
 exports.Operators = Operators;
