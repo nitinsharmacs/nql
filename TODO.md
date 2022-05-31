@@ -1,8 +1,10 @@
 # TODO
 
+- [ ] Implement Operator class instead of createOperator
 - [ ] Implement find on the table entries
   - [ ] Implement logical operators
     - [ ] Logical and
+- [ ] Pass operators to match of operator (for Or operator)
 - [ ] Implement delete on the table entries
 
 # DOING

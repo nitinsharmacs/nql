@@ -2,6 +2,7 @@ const entries = Object.entries;
 
 class Eq {
   constructor({ eq }) {
+    this.name = 'eq';
     this.operands = eq;
   }
 
@@ -10,10 +11,15 @@ class Eq {
       return record[opKey] === opValue;
     });
   }
+
+  is(operator) {
+    return operator === this.name;
+  }
 }
 
 class Ne {
   constructor({ ne }) {
+    this.name = 'ne';
     this.operands = ne;
   }
 
@@ -22,10 +28,15 @@ class Ne {
       return record[opKey] !== opValue;
     });
   }
+
+  is(operator) {
+    return operator === this.name;
+  }
 }
 
 class Gt {
   constructor({ gt }) {
+    this.name = 'gt';
     this.operands = gt;
   }
 
@@ -34,10 +45,15 @@ class Gt {
       return record[opKey] > opValue;
     });
   }
+
+  is(operator) {
+    return operator === this.name;
+  }
 }
 
 class Ge {
   constructor({ ge }) {
+    this.name = 'ge';
     this.operands = ge;
   }
 
@@ -50,6 +66,7 @@ class Ge {
 
 class Lt {
   constructor({ lt }) {
+    this.name = 'lt';
     this.operands = lt;
   }
 
@@ -58,10 +75,15 @@ class Lt {
       return record[opKey] < opValue;
     });
   }
+
+  is(operator) {
+    return operator === this.name;
+  }
 }
 
 class Le {
   constructor({ le }) {
+    this.name = 'le';
     this.operands = le;
   }
 
@@ -70,68 +92,61 @@ class Le {
       return record[opKey] <= opValue;
     });
   }
+
+  is(operator) {
+    return operator === this.name;
+  }
 }
 
-// operands: or: [ {lt:{}}, gt:{} ]
 class Or {
   constructor({ or }) {
+    this.name = 'or';
     this.operands = or;
   }
   match(record) {
     return this.operands.some(operand => {
-      const operator = createOperator(operand);
+      const operators = new Operators();
+      const operator = operators.getOperator(operand);
       return operator.match(record);
     });
   }
+
+  is(operator) {
+    return operator === this.name;
+  }
 }
 
-const relationalOperator = (operatorName) => {
-  const operators = {
-    'eq': Eq,
-    'ne': Ne,
-    'gt': Gt,
-    'ge': Ge,
-    'lt': Lt,
-    'le': Le,
-  };
-  return operators[operatorName];
-};
-
-const logicalOperator = (operatorName) => {
-  const operators = {
-    'or': Or,
-  };
-  return operators[operatorName];
-};
-
-const isLogialOperator = (operatorName) => {
-  const logicalOperators = ['or', 'and', 'not'];
-  return logicalOperators.includes(operatorName);
-};
-
-const isRelationalOperator = (operatorName) => {
-  const relationalOperators = ['eq', 'ne', 'gt', 'ge', 'lt', 'le'];
-  return relationalOperators.includes(operatorName);
-};
-
-const createOperator = (criteria) => {
-  const [operatorName] = Object.keys(criteria);
-
-  if (isLogialOperator(operatorName)) {
-    const Operator = logicalOperator(operatorName);
-    return new Operator(criteria);
+class Operators {
+  constructor() {
+    this.operators = {
+      'eq': Eq,
+      'ne': Ne,
+      'gt': Gt,
+      'ge': Ge,
+      'lt': Lt,
+      'le': Le,
+      'or': Or
+    };
   }
 
-  if (isRelationalOperator(operatorName)) {
-    const Operator = relationalOperator(operatorName);
-    return new Operator(criteria);
+  getOperator(criteria) {
+    const [operatorName] = Object.keys(criteria);
+    const Operator = this.operators[operatorName];
+    if (Operator) {
+      return new Operator(criteria);
+    }
+    throw {
+      code: 'NOOPENT',
+      message: 'operator not found',
+      operator: operatorName
+    };
   }
+}
 
-  throw {
-    code: 'NOOPENT',
-    message: 'operator not found',
-    operator: operatorName
-  };
-};
-
-exports.createOperator = createOperator;
+exports.Eq = Eq;
+exports.Ne = Ne;
+exports.Gt = Gt;
+exports.Ge = Ge;
+exports.Lt = Lt;
+exports.Le = Le;
+exports.Operators = Operators;

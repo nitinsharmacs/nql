@@ -1,5 +1,5 @@
 const {
-  createOperator
+  Operators
 } = require('./operators.js');
 
 const newId = (tableEntries) => {
@@ -18,16 +18,19 @@ class Table {
   constructor({ records }) {
     this.records = records;
   }
+
   insert(record) {
     const id = newId(this.records);
     this.records.push({ id, ...record });
     return this.records;
   }
+
   find(criteria) {
     if (isEmpty(criteria)) {
       return this.records;
     }
-    const operator = createOperator(criteria);
+    const operators = new Operators();
+    const operator = operators.getOperator(criteria);
     return this.records.filter(record => {
       return operator.match(record);
     });
