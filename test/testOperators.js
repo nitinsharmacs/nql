@@ -8,6 +8,7 @@ const {
   Le,
   Or,
   And,
+  Not,
   Operators
 } = require('../src/operators.js');
 
@@ -131,6 +132,23 @@ describe('And', () => {
   });
 });
 
+describe('Not', () => {
+  it('should match record by not operator', () => {
+    const record = { age: 20 };
+    const operators = new Operators();
+    let not = new Not({ not: { gt: { age: 21 } } });
+    assert.ok(not.match(record, operators));
+
+    not = new Not({ not: { or: [{ gt: { age: 16 } }, { lt: { age: 21 } }] } });
+    assert.strictEqual(not.match(record, operators), false);
+  });
+
+  it('should check if given operator is or operator', () => {
+    const not = new Not({ not: {} });
+    assert.ok(not.is('not'));
+  });
+});
+
 describe('Operators', () => {
   describe('getOperator', () => {
     it('should give relational operator eq', () => {
@@ -149,9 +167,23 @@ describe('Operators', () => {
 
     it('should give logical operator or', () => {
       const operators = new Operators();
-      const criteria = { or: {} };
+      const criteria = { or: [] };
       const or = operators.getOperator(criteria);
       assert.ok(or.is('or'));
+    });
+
+    it('should give logical operator and', () => {
+      const operators = new Operators();
+      const criteria = { and: [] };
+      const and = operators.getOperator(criteria);
+      assert.ok(and.is('and'));
+    });
+
+    it('should give logical operator and', () => {
+      const operators = new Operators();
+      const criteria = { not: {} };
+      const not = operators.getOperator(criteria);
+      assert.ok(not.is('not'));
     });
   });
 });

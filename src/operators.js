@@ -132,6 +132,21 @@ class And {
   }
 }
 
+class Not {
+  constructor({ not }) {
+    this.name = 'not';
+    this.operand = not;
+  }
+  match(record, operators) {
+    const operator = operators.getOperator(this.operand);
+    return !operator.match(record, operators);
+  }
+
+  is(operator) {
+    return operator === this.name;
+  }
+}
+
 class Operators {
   constructor() {
     this.operators = {
@@ -142,6 +157,7 @@ class Operators {
       'lt': Lt,
       'le': Le,
       'or': Or,
+      'not': Not,
       'and': And
     };
   }
@@ -168,4 +184,5 @@ exports.Lt = Lt;
 exports.Le = Le;
 exports.Or = Or;
 exports.And = And;
+exports.Not = Not;
 exports.Operators = Operators;

@@ -1,8 +1,6 @@
 # TODO
 
 - [ ] Implement find on the table entries
-  - [ ] Implement logical operators
-    - [ ] Logical not
 - [ ] Implement delete on the table entries
 
 # DOING
@@ -14,6 +12,7 @@
 - [x] Implement logical operators
     - [x] Logical or
     - [x] Logical and
+    - [x] Logical not
 - [x] Change this.table to this.entries in Table class
 - [x] Relational Operators as class
 - [x] Implement find on the table entries
