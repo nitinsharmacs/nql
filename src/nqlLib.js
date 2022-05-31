@@ -38,6 +38,11 @@ class Table {
     return this.records;
   }
 
+  insertMany(records) {
+    records.forEach(record => this.insert(record));
+    return this.records;
+  }
+
   find(criteria) {
     if (isEmpty(criteria)) {
       return this.records;

@@ -31,6 +31,26 @@ describe('Table', () => {
     });
   });
 
+  describe('insertMany', () => {
+    it('should insert multiple records', () => {
+      const records = [
+        { id: 1, name: 'john', age: 21 },
+      ];
+      const table = new Table({
+        records: records
+      });
+      const record = [
+        { name: 'hemant', age: 21 }, { name: 'rehan', age: 23 }
+      ];
+      const expected = [
+        { id: 1, name: 'john', age: 21 },
+        { id: 2, name: 'hemant', age: 21 },
+        { id: 3, name: 'rehan', age: 23 }
+      ];
+      assert.deepStrictEqual(table.insertMany(record), expected);
+    });
+  });
+
   describe('find [Eq]', () => {
     it('should find the record by the id', () => {
       const records = [

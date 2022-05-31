@@ -14,13 +14,16 @@ Demo DBMS
   * Takes criteria
   * No criteria given, gives all records
 ### 4. insert
-  * Inserts single record into the records
+  * Inserts single record
+
+### 5. insertMany
+  * Inserts multiple records
   
-### 5. delete
+### 6. delete
   * delets all the records matching the criteria
   * if no criteria given i.e. empty criteria {} is given, it deletes all the records
   * It should return deleted records
-### 5. update
+### 7. update
 
 # Data structure
 

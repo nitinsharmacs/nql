@@ -2,6 +2,7 @@
 
 - [ ] Implement update on the table entries
 - [ ] Insert multiple records
+- [ ] Soft deleting
 
 # DOING
 
