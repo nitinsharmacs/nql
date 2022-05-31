@@ -1,6 +1,5 @@
 # TODO
 
-- [ ] Implement delete on the table entries
 - [ ] Implement update on the table entries
 - [ ] Insert multiple records
 
@@ -8,6 +7,7 @@
 
 # DONE
 
+- [x] Implement delete on the table entries
 - [x] Pass operators to match of operator (for Or operator)
 - [x] Implement Operator class instead of createOperator
 - [x] Implement logical operators

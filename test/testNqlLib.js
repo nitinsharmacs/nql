@@ -202,4 +202,80 @@ describe('Table', () => {
       assert.deepStrictEqual(table.find(criteria), expected);
     });
   });
+
+  describe('delete', () => {
+    it('should delete the matched record from records', () => {
+      const records = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 21 },
+      ];
+      const table = new Table({
+        records: records
+      });
+      const expected = [
+        { id: 2, name: 'john', age: 21 },
+      ];
+      const criteria = { eq: { id: 2 } };
+      assert.deepStrictEqual(table.delete(criteria), expected);
+      const newRecords = [
+        { id: 1, name: 'john', age: 11 },
+      ];
+      assert.deepStrictEqual(table.find({}), newRecords);
+    });
+
+    it('should delete the matched records from records', () => {
+      const records = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 21 },
+        { id: 3, name: 'john', age: 23 },
+      ];
+      const table = new Table({
+        records: records
+      });
+      const expected = [
+        { id: 2, name: 'john', age: 21 },
+        { id: 3, name: 'john', age: 23 },
+      ];
+      const criteria = { gt: { age: 20 } };
+      assert.deepStrictEqual(table.delete(criteria), expected);
+
+      const newRecords = [
+        { id: 1, name: 'john', age: 11 },
+      ];
+      assert.deepStrictEqual(table.find({}), newRecords);
+    });
+
+    it('should delete nothing for no match', () => {
+      const records = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 21 }
+      ];
+      const table = new Table({
+        records: records
+      });
+      const expected = [];
+      const criteria = { gt: { id: 20 } };
+      assert.deepStrictEqual(table.delete(criteria), expected);
+
+      assert.deepStrictEqual(table.find({}), records);
+    });
+
+    it('should delete all if no criteria given', () => {
+      const records = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 21 }
+      ];
+      const table = new Table({
+        records: records
+      });
+      const expected = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 21 }
+      ];
+      const criteria = {};
+      assert.deepStrictEqual(table.delete(criteria), expected);
+
+      assert.deepStrictEqual(table.find({}), []);
+    });
+  });
 });

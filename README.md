@@ -19,6 +19,7 @@ Demo DBMS
 ### 5. delete
   * delets all the records matching the criteria
   * if no criteria given i.e. empty criteria {} is given, it deletes all the records
+  * It should return deleted records
 ### 5. update
 
 # Data structure
