@@ -1,9 +1,9 @@
 const entries = Object.entries;
 
 class Eq {
-  constructor({ eq }) {
-    this.name = 'eq';
-    this.operands = eq;
+  constructor({ $eq }) {
+    this.name = '$eq';
+    this.operands = $eq;
   }
 
   match(record) {
@@ -18,9 +18,9 @@ class Eq {
 }
 
 class Ne {
-  constructor({ ne }) {
-    this.name = 'ne';
-    this.operands = ne;
+  constructor({ $ne }) {
+    this.name = '$ne';
+    this.operands = $ne;
   }
 
   match(record) {
@@ -35,9 +35,9 @@ class Ne {
 }
 
 class Gt {
-  constructor({ gt }) {
-    this.name = 'gt';
-    this.operands = gt;
+  constructor({ $gt }) {
+    this.name = '$gt';
+    this.operands = $gt;
   }
 
   match(record) {
@@ -52,9 +52,9 @@ class Gt {
 }
 
 class Ge {
-  constructor({ ge }) {
-    this.name = 'ge';
-    this.operands = ge;
+  constructor({ $ge }) {
+    this.name = '$ge';
+    this.operands = $ge;
   }
 
   match(record) {
@@ -65,9 +65,9 @@ class Ge {
 }
 
 class Lt {
-  constructor({ lt }) {
-    this.name = 'lt';
-    this.operands = lt;
+  constructor({ $lt }) {
+    this.name = '$lt';
+    this.operands = $lt;
   }
 
   match(record) {
@@ -82,9 +82,9 @@ class Lt {
 }
 
 class Le {
-  constructor({ le }) {
-    this.name = 'le';
-    this.operands = le;
+  constructor({ $le }) {
+    this.name = '$le';
+    this.operands = $le;
   }
 
   match(record) {
@@ -99,9 +99,9 @@ class Le {
 }
 
 class Or {
-  constructor({ or }) {
-    this.name = 'or';
-    this.operands = or;
+  constructor({ $or }) {
+    this.name = '$or';
+    this.operands = $or;
   }
   match(record, operators) {
     return this.operands.some(operand => {
@@ -116,9 +116,9 @@ class Or {
 }
 
 class And {
-  constructor({ and }) {
-    this.name = 'and';
-    this.operands = and;
+  constructor({ $and }) {
+    this.name = '$and';
+    this.operands = $and;
   }
   match(record, operators) {
     return this.operands.every(operand => {
@@ -133,9 +133,9 @@ class And {
 }
 
 class Not {
-  constructor({ not }) {
-    this.name = 'not';
-    this.operand = not;
+  constructor({ $not }) {
+    this.name = '$not';
+    this.operand = $not;
   }
   match(record, operators) {
     const operator = operators.getOperator(this.operand);
@@ -150,15 +150,15 @@ class Not {
 class Operators {
   constructor() {
     this.operators = {
-      'eq': Eq,
-      'ne': Ne,
-      'gt': Gt,
-      'ge': Ge,
-      'lt': Lt,
-      'le': Le,
-      'or': Or,
-      'not': Not,
-      'and': And
+      '$eq': Eq,
+      '$ne': Ne,
+      '$gt': Gt,
+      '$ge': Ge,
+      '$lt': Lt,
+      '$le': Le,
+      '$or': Or,
+      '$not': Not,
+      '$and': And
     };
   }
 

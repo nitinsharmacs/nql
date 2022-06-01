@@ -1,7 +1,7 @@
 const assert = require('assert');
 const {
   Set
-} = require('../src/update.js');
+} = require('../src/updatesOperators.js');
 
 describe('Set', () => {
   it('should set single update into the record', () => {

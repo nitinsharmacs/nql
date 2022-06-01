@@ -1,10 +1,10 @@
 const {
   Operators
-} = require('./query.js');
+} = require('./queryOperators.js');
 
 const {
   Set
-} = require('./update.js');
+} = require('./updatesOperators.js');
 
 const newId = (tableEntries) => {
   const lastEntry = tableEntries[tableEntries.length - 1];

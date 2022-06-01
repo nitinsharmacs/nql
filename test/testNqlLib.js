@@ -61,7 +61,7 @@ describe('Table', () => {
         records: records
       });
       const expected = { id: 2, name: 'hemant', age: 21 };
-      const query = { eq: { id: 2 } };
+      const query = { $eq: { id: 2 } };
       assert.deepStrictEqual(table.find(query), expected);
     });
 
@@ -74,7 +74,7 @@ describe('Table', () => {
         records: records
       });
       const expected = undefined;
-      const query = { eq: { id: 12 } };
+      const query = { $eq: { id: 12 } };
       assert.strictEqual(table.find(query), expected);
     });
   });
@@ -91,7 +91,7 @@ describe('Table', () => {
       const expected = [
         { id: 2, name: 'hemant', age: 21 }
       ];
-      const query = { eq: { id: 2 } };
+      const query = { $eq: { id: 2 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
 
@@ -107,13 +107,13 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 }
       ];
-      const query = { eq: { age: 21 } };
+      const query = { $eq: { age: 21 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
 
   describe('findMany [Ne]', () => {
-    it('should find all records not equal to the query', () => {
+    it('should find all records $not equal to the query', () => {
       const records = [
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
@@ -124,7 +124,7 @@ describe('Table', () => {
       const expected = [
         { id: 1, name: 'john', age: 21 },
       ];
-      const query = { ne: { id: 2 } };
+      const query = { $ne: { id: 2 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
@@ -141,13 +141,13 @@ describe('Table', () => {
       const expected = [
         { id: 2, name: 'hemant', age: 22 }
       ];
-      const query = { gt: { age: 21 } };
+      const query = { $gt: { age: 21 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
 
   describe('findMany [Ge]', () => {
-    it('should find records by greater than or equal to', () => {
+    it('should find records by greater than $or equal to', () => {
       const records = [
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 22 },
@@ -159,7 +159,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 22 }
       ];
-      const query = { ge: { age: 21 } };
+      const query = { $ge: { age: 21 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
@@ -176,17 +176,17 @@ describe('Table', () => {
       let expected = [
         { id: 1, name: 'john', age: 11 },
       ];
-      let query = { lt: { age: 21 } };
+      let query = { $lt: { age: 21 } };
       assert.deepStrictEqual(table.findMany(query), expected);
 
       expected = [];
-      query = { lt: { age: 11 } };
+      query = { $lt: { age: 11 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
 
   describe('findMany [Le]', () => {
-    it('should find records by less than or equal to', () => {
+    it('should find records by less than $or equal to', () => {
       const records = [
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
@@ -199,17 +199,17 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
       ];
-      let query = { le: { age: 21 } };
+      let query = { $le: { age: 21 } };
       assert.deepStrictEqual(table.findMany(query), expected);
 
       expected = [{ id: 1, name: 'john', age: 11 }];
-      query = { le: { age: 11 } };
+      query = { $le: { age: 11 } };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
 
-  describe('findMany [or]', () => {
-    it('should find records by less than or greater than', () => {
+  describe('findMany [$or]', () => {
+    it('should find records by less than $or greater than', () => {
       const records = [
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
@@ -223,15 +223,15 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 4, name: 'rehan', age: 23 },
       ];
-      let query = { or: [{ lt: { age: 21 } }, { gt: { age: 22 } }] };
+      let query = { $or: [{ $lt: { age: 21 } }, { $gt: { age: 22 } }] };
       assert.deepStrictEqual(table.findMany(query), expected);
 
       expected = [{ id: 1, name: 'john', age: 11 }];
-      query = { or: [{ le: { age: 11 } }] };
+      query = { $or: [{ $le: { age: 11 } }] };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
 
-    it('should find records by less than or not equal to', () => {
+    it('should find records by less than $or $not equal to', () => {
       const records = [
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
@@ -246,7 +246,7 @@ describe('Table', () => {
         { id: 2, name: 'john', age: 21 },
         { id: 4, name: 'rehan', age: 23 },
       ];
-      const query = { or: [{ lt: { age: 21 } }, { ne: { age: 22 } }] };
+      const query = { $or: [{ $lt: { age: 21 } }, { $ne: { age: 22 } }] };
       assert.deepStrictEqual(table.findMany(query), expected);
     });
   });
@@ -263,7 +263,7 @@ describe('Table', () => {
       const expected = [
         { id: 2, name: 'john', age: 21 },
       ];
-      const query = { eq: { id: 2 } };
+      const query = { $eq: { id: 2 } };
       assert.deepStrictEqual(table.delete(query), expected);
       const newRecords = [
         { id: 1, name: 'john', age: 11 },
@@ -284,7 +284,7 @@ describe('Table', () => {
         { id: 2, name: 'john', age: 21 },
         { id: 3, name: 'john', age: 23 },
       ];
-      const query = { gt: { age: 20 } };
+      const query = { $gt: { age: 20 } };
       assert.deepStrictEqual(table.delete(query), expected);
 
       const newRecords = [
@@ -302,7 +302,7 @@ describe('Table', () => {
         records: records
       });
       const expected = [];
-      const query = { gt: { id: 20 } };
+      const query = { $gt: { id: 20 } };
       assert.deepStrictEqual(table.delete(query), expected);
 
       assert.deepStrictEqual(table.findMany({}), records);
@@ -340,7 +340,7 @@ describe('Table', () => {
         updateCount: 1,
         record: { id: 2, name: 'john', age: 23 }
       };
-      const query = { eq: { id: 2 } };
+      const query = { $eq: { id: 2 } };
       const updates = { $set: { age: 23 } };
       assert.deepStrictEqual(table.update(query, updates), expected);
       const newRecords = [
@@ -365,7 +365,7 @@ describe('Table', () => {
           { id: 2, name: 'john', age: 23 }
         ]
       };
-      const query = { ge: { id: 1 } };
+      const query = { $ge: { id: 1 } };
       const updates = { $set: { age: 23 } };
       const options = { multi: true };
 
@@ -394,7 +394,7 @@ describe('Table', () => {
           { id: 2, name: 'hemant', age: 23 },
         ]
       };
-      const query = { ge: { id: 1 } };
+      const query = { $ge: { id: 1 } };
       const updates = { $set: { age: 23 } };
 
       assert.deepStrictEqual(table.updateMany(query, updates), expected);
