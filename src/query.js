@@ -162,11 +162,11 @@ class Operators {
     };
   }
 
-  getOperator(criteria) {
-    const [operatorName] = Object.keys(criteria);
+  getOperator(query) {
+    const [operatorName] = Object.keys(query);
     const Operator = this.operators[operatorName];
     if (Operator) {
-      return new Operator(criteria);
+      return new Operator(query);
     }
     throw {
       code: 'NOOPENT',

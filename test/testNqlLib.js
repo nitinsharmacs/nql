@@ -63,8 +63,8 @@ describe('Table', () => {
       const expected = [
         { id: 2, name: 'hemant', age: 21 }
       ];
-      const criteria = { eq: { id: 2 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      const query = { eq: { id: 2 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
 
     it('should find multiple records', () => {
@@ -79,13 +79,13 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 }
       ];
-      const criteria = { eq: { age: 21 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      const query = { eq: { age: 21 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
   describe('find [Ne]', () => {
-    it('should find all records not equal to the criteria', () => {
+    it('should find all records not equal to the query', () => {
       const records = [
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
@@ -96,8 +96,8 @@ describe('Table', () => {
       const expected = [
         { id: 1, name: 'john', age: 21 },
       ];
-      const criteria = { ne: { id: 2 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      const query = { ne: { id: 2 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
@@ -113,8 +113,8 @@ describe('Table', () => {
       const expected = [
         { id: 2, name: 'hemant', age: 22 }
       ];
-      const criteria = { gt: { age: 21 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      const query = { gt: { age: 21 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
@@ -131,8 +131,8 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 22 }
       ];
-      const criteria = { ge: { age: 21 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      const query = { ge: { age: 21 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
@@ -148,12 +148,12 @@ describe('Table', () => {
       let expected = [
         { id: 1, name: 'john', age: 11 },
       ];
-      let criteria = { lt: { age: 21 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      let query = { lt: { age: 21 } };
+      assert.deepStrictEqual(table.find(query), expected);
 
       expected = [];
-      criteria = { lt: { age: 11 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      query = { lt: { age: 11 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
@@ -171,12 +171,12 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
       ];
-      let criteria = { le: { age: 21 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      let query = { le: { age: 21 } };
+      assert.deepStrictEqual(table.find(query), expected);
 
       expected = [{ id: 1, name: 'john', age: 11 }];
-      criteria = { le: { age: 11 } };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      query = { le: { age: 11 } };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
@@ -195,12 +195,12 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 4, name: 'rehan', age: 23 },
       ];
-      let criteria = { or: [{ lt: { age: 21 } }, { gt: { age: 22 } }] };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      let query = { or: [{ lt: { age: 21 } }, { gt: { age: 22 } }] };
+      assert.deepStrictEqual(table.find(query), expected);
 
       expected = [{ id: 1, name: 'john', age: 11 }];
-      criteria = { or: [{ le: { age: 11 } }] };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      query = { or: [{ le: { age: 11 } }] };
+      assert.deepStrictEqual(table.find(query), expected);
     });
 
     it('should find records by less than or not equal to', () => {
@@ -218,8 +218,8 @@ describe('Table', () => {
         { id: 2, name: 'john', age: 21 },
         { id: 4, name: 'rehan', age: 23 },
       ];
-      const criteria = { or: [{ lt: { age: 21 } }, { ne: { age: 22 } }] };
-      assert.deepStrictEqual(table.find(criteria), expected);
+      const query = { or: [{ lt: { age: 21 } }, { ne: { age: 22 } }] };
+      assert.deepStrictEqual(table.find(query), expected);
     });
   });
 
@@ -235,8 +235,8 @@ describe('Table', () => {
       const expected = [
         { id: 2, name: 'john', age: 21 },
       ];
-      const criteria = { eq: { id: 2 } };
-      assert.deepStrictEqual(table.delete(criteria), expected);
+      const query = { eq: { id: 2 } };
+      assert.deepStrictEqual(table.delete(query), expected);
       const newRecords = [
         { id: 1, name: 'john', age: 11 },
       ];
@@ -256,8 +256,8 @@ describe('Table', () => {
         { id: 2, name: 'john', age: 21 },
         { id: 3, name: 'john', age: 23 },
       ];
-      const criteria = { gt: { age: 20 } };
-      assert.deepStrictEqual(table.delete(criteria), expected);
+      const query = { gt: { age: 20 } };
+      assert.deepStrictEqual(table.delete(query), expected);
 
       const newRecords = [
         { id: 1, name: 'john', age: 11 },
@@ -274,13 +274,13 @@ describe('Table', () => {
         records: records
       });
       const expected = [];
-      const criteria = { gt: { id: 20 } };
-      assert.deepStrictEqual(table.delete(criteria), expected);
+      const query = { gt: { id: 20 } };
+      assert.deepStrictEqual(table.delete(query), expected);
 
       assert.deepStrictEqual(table.find({}), records);
     });
 
-    it('should delete all if no criteria given', () => {
+    it('should delete all if no query given', () => {
       const records = [
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 }
@@ -292,10 +292,31 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 }
       ];
-      const criteria = {};
-      assert.deepStrictEqual(table.delete(criteria), expected);
+      const query = {};
+      assert.deepStrictEqual(table.delete(query), expected);
 
       assert.deepStrictEqual(table.find({}), []);
+    });
+  });
+
+  describe('update', () => {
+    it('should update single record', () => {
+      const records = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 21 },
+      ];
+      const table = new Table({
+        records: records
+      });
+      const expected = { id: 2, name: 'john', age: 23 };
+      const query = { eq: { id: 2 } };
+      const updates = { $set: { age: 23 } };
+      assert.deepStrictEqual(table.update(query, updates), expected);
+      const newRecords = [
+        { id: 1, name: 'john', age: 11 },
+        { id: 2, name: 'john', age: 23 },
+      ];
+      assert.deepStrictEqual(table.find({}), newRecords);
     });
   });
 });

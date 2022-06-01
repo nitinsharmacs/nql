@@ -1,13 +1,13 @@
 # TODO
 
 - [ ] Implement update on the table entries
-- [ ] Insert multiple records
 - [ ] Soft deleting
 
 # DOING
 
 # DONE
 
+- [x] Insert multiple records
 - [x] Implement delete on the table entries
 - [x] Pass operators to match of operator (for Or operator)
 - [x] Implement Operator class instead of createOperator

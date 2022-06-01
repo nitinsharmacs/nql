@@ -10,7 +10,7 @@ const {
   And,
   Not,
   Operators
-} = require('../src/operators.js');
+} = require('../src/query.js');
 
 describe('Eq', () => {
   it('should match record by equality', () => {
@@ -153,36 +153,36 @@ describe('Operators', () => {
   describe('getOperator', () => {
     it('should give relational operator eq', () => {
       const operators = new Operators();
-      const criteria = { eq: {} };
-      const eq = operators.getOperator(criteria);
+      const query = { eq: {} };
+      const eq = operators.getOperator(query);
       assert.ok(eq.is('eq'));
     });
 
     it('should give relational operator gt', () => {
       const operators = new Operators();
-      const criteria = { gt: {} };
-      const gt = operators.getOperator(criteria);
+      const query = { gt: {} };
+      const gt = operators.getOperator(query);
       assert.ok(gt.is('gt'));
     });
 
     it('should give logical operator or', () => {
       const operators = new Operators();
-      const criteria = { or: [] };
-      const or = operators.getOperator(criteria);
+      const query = { or: [] };
+      const or = operators.getOperator(query);
       assert.ok(or.is('or'));
     });
 
     it('should give logical operator and', () => {
       const operators = new Operators();
-      const criteria = { and: [] };
-      const and = operators.getOperator(criteria);
+      const query = { and: [] };
+      const and = operators.getOperator(query);
       assert.ok(and.is('and'));
     });
 
     it('should give logical operator and', () => {
       const operators = new Operators();
-      const criteria = { not: {} };
-      const not = operators.getOperator(criteria);
+      const query = { not: {} };
+      const not = operators.getOperator(query);
       assert.ok(not.is('not'));
     });
   });

@@ -1,12 +1,17 @@
 const {
   Operators
-} = require('./operators.js');
+} = require('./query.js');
+
+const {
+  Set
+} = require('./update.js');
 
 const newId = (tableEntries) => {
   const lastEntry = tableEntries[tableEntries.length - 1];
   if (lastEntry === undefined) {
     return 1;
   }
+
   return lastEntry.id + 1;
 };
 
@@ -17,6 +22,7 @@ const isEmpty = (obj) => {
 const partition = (list, predicate) => {
   const matches = [];
   const rest = [];
+
   for (const listItem of list) {
     if (predicate(listItem)) {
       matches.push(listItem);
@@ -24,6 +30,7 @@ const partition = (list, predicate) => {
       rest.push(listItem);
     }
   }
+
   return { matches, rest };
 };
 
@@ -43,32 +50,43 @@ class Table {
     return this.records;
   }
 
-  find(criteria) {
-    if (isEmpty(criteria)) {
+  find(query) {
+    if (isEmpty(query)) {
       return this.records;
     }
+
     const operators = new Operators();
-    const operator = operators.getOperator(criteria);
+    const operator = operators.getOperator(query);
+
     return this.records.filter(record => {
       return operator.match(record, operators);
     });
   }
 
-  delete(criteria) {
-    if (isEmpty(criteria)) {
+  delete(query) {
+    if (isEmpty(query)) {
       const deleted = this.records;
       this.records = [];
       return deleted;
     }
 
     const operators = new Operators();
-    const operator = operators.getOperator(criteria);
+    const operator = operators.getOperator(query);
 
     const deletionPredicate = (listItem) => operator.match(listItem);
     const { matches, rest } = partition(this.records, deletionPredicate);
 
     this.records = rest;
     return matches;
+  }
+
+  update(query, updates, options) {
+    const operators = new Operators();
+    const operator = operators.getOperator(query);
+
+    const record = this.records.find(record => operator.match(record));
+    const set = new Set(updates);
+    return set.update(record);
   }
 }
 
