@@ -51,6 +51,17 @@ class Table {
   }
 
   find(query) {
+    let findPredicate = () => true;
+    if (!isEmpty(query)) {
+      const operators = new Operators();
+      const operator = operators.getOperator(query);
+      findPredicate = (record) => operator.match(record);
+    }
+
+    return this.records.find(findPredicate);
+  }
+
+  findMany(query) {
     if (isEmpty(query)) {
       return this.records;
     }
@@ -81,12 +92,35 @@ class Table {
   }
 
   update(query, updates, options) {
-    const operators = new Operators();
-    const operator = operators.getOperator(query);
+    if (options && options.multi) {
+      return this.updateMany(query, updates);
+    }
 
-    const record = this.records.find(record => operator.match(record));
+    const record = this.find(query);
+    if (record === undefined) {
+      return { updateCount: 0, record: undefined };
+    }
+
     const set = new Set(updates);
-    return set.update(record);
+
+    return {
+      updateCount: 1,
+      record: set.update(record)
+    };
+  }
+
+  updateMany(query, updates) {
+    const records = this.findMany(query);
+
+    const set = new Set(updates);
+    const modifiedRecords = records.map(record => {
+      return set.update(record);
+    });
+
+    return {
+      updateCount: modifiedRecords.length,
+      records: modifiedRecords
+    };
   }
 }
 

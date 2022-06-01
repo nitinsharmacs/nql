@@ -1,9 +1,14 @@
 # TODO
 
 - [ ] Implement update on the table entries
-- [ ] Soft deleting
+- [ ] Implement find and findMany
+- [ ] Implement Record as entity
 
 # DOING
+
+# CONSIDER 
+
+- [ ] Soft deleting
 
 # DONE
 
