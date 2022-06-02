@@ -3,7 +3,7 @@ const {
 } = require('./queryOperators.js');
 
 const {
-  Set
+  Update
 } = require('./updatesOperators.js');
 
 const newId = (tableEntries) => {
@@ -101,20 +101,23 @@ class Table {
       return { updateCount: 0, record: undefined };
     }
 
-    const set = new Set(updates);
+    const update = new Update(updates);
+    const updater = update.getUpdater();
 
     return {
       updateCount: 1,
-      record: set.update(record)
+      record: updater.update(record)
     };
   }
 
   updateMany(query, updates) {
     const records = this.findMany(query);
 
-    const set = new Set(updates);
+    const update = new Update(updates);
+    const updater = update.getUpdater();
+
     const modifiedRecords = records.map(record => {
-      return set.update(record);
+      return updater.update(record);
     });
 
     return {

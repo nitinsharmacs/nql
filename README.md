@@ -35,20 +35,20 @@ Demo DBMS
   1. set: Replaces the given data sets
 
   ``` js
-    update({id: 1}, {set: {age: 12}});
+    update({id: 1}, {$set: {age: 12}});
     // replaces the age by 12
   ```
   2. inc: Increments the numerical data set
 
   ``` js
-    update({id: 1}, {inc: {age: 1}});
+    update({id: 1}, {$inc: {age: 1}});
     // increments age by 1
   ```
 
   3. dec: Decrements the numerical data set
 
   ``` js
-    update({id: 1}, {dec: {age: 1}});
+    update({id: 1}, {$dec: {age: 1}});
     // decrements age by 1
   ```
 

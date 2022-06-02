@@ -1,6 +1,7 @@
 # TODO
 
-- [ ] Add $ to all operators
+- [ ] Implement Db class
+  - [ ] Implement createDb method
 - [ ] Implement Record as entity
 
 # DOING
@@ -11,6 +12,10 @@
 
 # DONE
 
+- [x] Implement $dec operator
+- [x] Implement $inc operator
+- [x] Implement $set operator
+- [x] Add $ to all operators
 - [x] Implement update on the table entries
 - [x] Implement find $and findMany
 - [x] Insert multiple records
