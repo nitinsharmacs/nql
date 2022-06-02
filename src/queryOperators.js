@@ -105,7 +105,7 @@ class Or {
   }
   match(record, operators) {
     return this.operands.some(operand => {
-      const operator = operators.getOperator(operand);
+      const operator = getQueryOperator(operand);
       return operator.match(record);
     });
   }
@@ -122,7 +122,7 @@ class And {
   }
   match(record, operators) {
     return this.operands.every(operand => {
-      const operator = operators.getOperator(operand);
+      const operator = getQueryOperator(operand);
       return operator.match(record);
     });
   }
@@ -138,7 +138,7 @@ class Not {
     this.operand = $not;
   }
   match(record, operators) {
-    const operator = operators.getOperator(this.operand);
+    const operator = getQueryOperator(this.operand);
     return !operator.match(record, operators);
   }
 
@@ -147,34 +147,32 @@ class Not {
   }
 }
 
-class Operators {
-  constructor() {
-    this.operators = {
-      '$eq': Eq,
-      '$ne': Ne,
-      '$gt': Gt,
-      '$ge': Ge,
-      '$lt': Lt,
-      '$le': Le,
-      '$or': Or,
-      '$not': Not,
-      '$and': And
-    };
+const getQueryOperator = (query) => {
+  const queryOperators = {
+    '$eq': Eq,
+    '$ne': Ne,
+    '$gt': Gt,
+    '$ge': Ge,
+    '$lt': Lt,
+    '$le': Le,
+    '$or': Or,
+    '$not': Not,
+    '$and': And
+  };
+
+  const [operatorName] = Object.keys(query);
+  const Operator = queryOperators[operatorName];
+
+  if (Operator) {
+    return new Operator(query);
   }
 
-  getOperator(query) {
-    const [operatorName] = Object.keys(query);
-    const Operator = this.operators[operatorName];
-    if (Operator) {
-      return new Operator(query);
-    }
-    throw {
-      code: 'NOOPENT',
-      message: 'operator not found',
-      operator: operatorName
-    };
-  }
-}
+  throw {
+    code: 'NOOPENT',
+    message: 'operator not found',
+    operator: operatorName
+  };
+};
 
 exports.Eq = Eq;
 exports.Ne = Ne;
@@ -185,4 +183,4 @@ exports.Le = Le;
 exports.Or = Or;
 exports.And = And;
 exports.Not = Not;
-exports.Operators = Operators;
+exports.getQueryOperator = getQueryOperator;

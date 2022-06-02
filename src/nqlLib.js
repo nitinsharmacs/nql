@@ -1,9 +1,9 @@
 const {
-  Operators
+  Operators, getQueryOperator
 } = require('./queryOperators.js');
 
 const {
-  Update
+  getUpdater
 } = require('./updatesOperators.js');
 
 const newId = (tableEntries) => {
@@ -53,8 +53,7 @@ class Table {
   find(query) {
     let findPredicate = () => true;
     if (!isEmpty(query)) {
-      const operators = new Operators();
-      const operator = operators.getOperator(query);
+      const operator = getQueryOperator(query);
       findPredicate = (record) => operator.match(record);
     }
 
@@ -66,11 +65,10 @@ class Table {
       return this.records;
     }
 
-    const operators = new Operators();
-    const operator = operators.getOperator(query);
+    const operator = getQueryOperator(query);
 
     return this.records.filter(record => {
-      return operator.match(record, operators);
+      return operator.match(record);
     });
   }
 
@@ -81,8 +79,7 @@ class Table {
       return deleted;
     }
 
-    const operators = new Operators();
-    const operator = operators.getOperator(query);
+    const operator = getQueryOperator(query);
 
     const deletionPredicate = (listItem) => operator.match(listItem);
     const { matches, rest } = partition(this.records, deletionPredicate);
@@ -101,8 +98,7 @@ class Table {
       return { updateCount: 0, record: undefined };
     }
 
-    const update = new Update(updates);
-    const updater = update.getUpdater();
+    const updater = getUpdater(updates);
 
     return {
       updateCount: 1,
@@ -113,8 +109,7 @@ class Table {
   updateMany(query, updates) {
     const records = this.findMany(query);
 
-    const update = new Update(updates);
-    const updater = update.getUpdater();
+    const updater = getUpdater(updates);
 
     const modifiedRecords = records.map(record => {
       return updater.update(record);

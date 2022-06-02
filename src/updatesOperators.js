@@ -52,28 +52,22 @@ class Updater {
   }
 }
 
-class Update {
-  constructor(updates) {
-    this.updates = updates;
-    this.operators = {
-      '$set': Set,
-      '$inc': Inc,
-      '$dec': Dec
-    };
-  }
-
-  getUpdater() {
-    const operators = Object.keys(this.updates).map(operatorName => {
-      const Operator = this.operators[operatorName];
-      const operator = new Operator(this.updates);
-      return operator;
-    });
-    return new Updater(operators);
-  }
-}
+const getUpdater = (updates) => {
+  const updateOperators = {
+    '$set': Set,
+    '$inc': Inc,
+    '$dec': Dec
+  };
+  const operators = Object.keys(updates).map(operatorName => {
+    const Operator = updateOperators[operatorName];
+    const operator = new Operator(updates);
+    return operator;
+  });
+  return new Updater(operators);
+};
 
 exports.Set = Set;
 exports.Inc = Inc;
 exports.Dec = Dec;
 exports.Updater = Updater;
-exports.Update = Update;
+exports.getUpdater = getUpdater;

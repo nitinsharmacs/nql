@@ -9,7 +9,7 @@ const {
   Or,
   And,
   Not,
-  Operators
+  getQueryOperator
 } = require('../src/queryOperators.js');
 
 describe('Eq', () => {
@@ -87,19 +87,17 @@ describe('Le', () => {
 describe('Or', () => {
   it('should match record by $or operator having two operands', () => {
     const record = { age: 25 };
-    const operators = new Operators();
     let $or = new Or({ $or: [{ $lt: { age: 21 } }, { $gt: { age: 23 } }] });
-    assert.ok($or.match(record, operators));
+    assert.ok($or.match(record));
 
     $or = new Or({ $or: [{ $gt: { age: 26 } }, { $lt: { age: 21 } }] });
-    assert.strictEqual($or.match(record, operators), false);
+    assert.strictEqual($or.match(record), false);
   });
 
   it('should match record by $or operator having one operands', () => {
     const record = { age: 25 };
-    const operators = new Operators();
     const $or = new Or({ $or: [{ $gt: { age: 23 } }] });
-    assert.ok($or.match(record, operators));
+    assert.ok($or.match(record));
   });
 
   it('should check if given operator is $or operator', () => {
@@ -111,19 +109,17 @@ describe('Or', () => {
 describe('And', () => {
   it('should match record by $and operator having two operands', () => {
     const record = { age: 22 };
-    const operators = new Operators();
     let $and = new And({ $and: [{ $gt: { age: 21 } }, { $lt: { age: 23 } }] });
-    assert.ok($and.match(record, operators));
+    assert.ok($and.match(record));
 
     $and = new And({ $and: [{ $gt: { age: 16 } }, { $lt: { age: 21 } }] });
-    assert.strictEqual($and.match(record, operators), false);
+    assert.strictEqual($and.match(record), false);
   });
 
   it('should match record by $or operator having one operand', () => {
     const record = { age: 25 };
-    const operators = new Operators();
     const $and = new And({ $and: [{ $gt: { age: 23 } }] });
-    assert.ok($and.match(record, operators));
+    assert.ok($and.match(record));
   });
 
   it('should check if given operator is $or operator', () => {
@@ -135,12 +131,11 @@ describe('And', () => {
 describe('Not', () => {
   it('should match record by $not operator', () => {
     const record = { age: 20 };
-    const operators = new Operators();
     let $not = new Not({ $not: { $gt: { age: 21 } } });
-    assert.ok($not.match(record, operators));
+    assert.ok($not.match(record));
 
     $not = new Not({ $not: { $or: [{ $gt: { age: 16 } }, { $lt: { age: 21 } }] } });
-    assert.strictEqual($not.match(record, operators), false);
+    assert.strictEqual($not.match(record), false);
   });
 
   it('should check if given operator is $or operator', () => {
@@ -149,41 +144,34 @@ describe('Not', () => {
   });
 });
 
-describe('Operators', () => {
-  describe('getOperator', () => {
-    it('should give relational operator $eq', () => {
-      const operators = new Operators();
-      const query = { $eq: {} };
-      const $eq = operators.getOperator(query);
-      assert.ok($eq.is('$eq'));
-    });
+describe('getQueryOperator', () => {
+  it('should give relational operator $eq', () => {
+    const query = { $eq: {} };
+    const $eq = getQueryOperator(query);
+    assert.ok($eq.is('$eq'));
+  });
 
-    it('should give relational operator $gt', () => {
-      const operators = new Operators();
-      const query = { $gt: {} };
-      const $gt = operators.getOperator(query);
-      assert.ok($gt.is('$gt'));
-    });
+  it('should give relational operator $gt', () => {
+    const query = { $gt: {} };
+    const $gt = getQueryOperator(query);
+    assert.ok($gt.is('$gt'));
+  });
 
-    it('should give logical operator $or', () => {
-      const operators = new Operators();
-      const query = { $or: [] };
-      const $or = operators.getOperator(query);
-      assert.ok($or.is('$or'));
-    });
+  it('should give logical operator $or', () => {
+    const query = { $or: [] };
+    const $or = getQueryOperator(query);
+    assert.ok($or.is('$or'));
+  });
 
-    it('should give logical operator $and', () => {
-      const operators = new Operators();
-      const query = { $and: [] };
-      const $and = operators.getOperator(query);
-      assert.ok($and.is('$and'));
-    });
+  it('should give logical operator $and', () => {
+    const query = { $and: [] };
+    const $and = getQueryOperator(query);
+    assert.ok($and.is('$and'));
+  });
 
-    it('should give logical operator $and', () => {
-      const operators = new Operators();
-      const query = { $not: {} };
-      const $not = operators.getOperator(query);
-      assert.ok($not.is('$not'));
-    });
+  it('should give logical operator $and', () => {
+    const query = { $not: {} };
+    const $not = getQueryOperator(query);
+    assert.ok($not.is('$not'));
   });
 });

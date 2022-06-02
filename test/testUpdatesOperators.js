@@ -4,7 +4,7 @@ const {
   Inc,
   Dec,
   Updater,
-  Update
+  getUpdater
 } = require('../src/updatesOperators.js');
 
 describe('Set', () => {
@@ -92,17 +92,14 @@ describe('Updater', () => {
   });
 });
 
-describe('Update', () => {
-  describe('getUpdater', () => {
-    it('should give updater for given updates query', () => {
-      const record = { age: 22 };
-      const expected = { age: 21, country: 'India' };
+describe('getUpdater', () => {
+  it('should give updater for given updates query', () => {
+    const record = { age: 22 };
+    const expected = { age: 21, country: 'India' };
 
-      const updates = { $dec: { age: 1 }, $set: { country: 'India' } };
-      const update = new Update(updates);
-      const updater = update.getUpdater();
+    const updates = { $dec: { age: 1 }, $set: { country: 'India' } };
+    const updater = getUpdater(updates);
 
-      assert.deepStrictEqual(updater.update(record), expected);
-    });
+    assert.deepStrictEqual(updater.update(record), expected);
   });
 });
