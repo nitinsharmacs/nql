@@ -1,5 +1,5 @@
 const {
-  Operators, getQueryOperator
+  getQueryOperator
 } = require('./queryOperators.js');
 
 const {
@@ -35,19 +35,20 @@ const partition = (list, predicate) => {
 };
 
 class Table {
+  #records;
   constructor({ records }) {
-    this.records = records;
+    this.#records = records;
   }
 
   insert(record) {
-    const id = newId(this.records);
-    this.records.push({ id, ...record });
-    return this.records;
+    const id = newId(this.#records);
+    this.#records.push({ id, ...record });
+    return this.#records;
   }
 
   insertMany(records) {
     records.forEach(record => this.insert(record));
-    return this.records;
+    return this.#records;
   }
 
   find(query) {
@@ -57,34 +58,34 @@ class Table {
       findPredicate = (record) => operator.match(record);
     }
 
-    return this.records.find(findPredicate);
+    return this.#records.find(findPredicate);
   }
 
   findMany(query) {
     if (isEmpty(query)) {
-      return this.records;
+      return this.#records;
     }
 
     const operator = getQueryOperator(query);
 
-    return this.records.filter(record => {
+    return this.#records.filter(record => {
       return operator.match(record);
     });
   }
 
   delete(query) {
     if (isEmpty(query)) {
-      const deleted = this.records;
-      this.records = [];
+      const deleted = this.#records;
+      this.#records = [];
       return deleted;
     }
 
     const operator = getQueryOperator(query);
 
     const deletionPredicate = (listItem) => operator.match(listItem);
-    const { matches, rest } = partition(this.records, deletionPredicate);
+    const { matches, rest } = partition(this.#records, deletionPredicate);
 
-    this.records = rest;
+    this.#records = rest;
     return matches;
   }
 
