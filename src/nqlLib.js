@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const {
   getQueryOperator
 } = require('./queryOperators.js');
@@ -34,15 +36,39 @@ const partition = (list, predicate) => {
   return { matches, rest };
 };
 
-class Table {
+class DbFile {
+  #dbName;
+  constructor(dbName) {
+    this.#dbName = dbName;
+  }
+
+  writeTable(tableName, content) {
+    const dbFile = fs.readFileSync(this.#dbName, 'utf8');
+
+    const dbContent = JSON.parse(dbFile);
+    dbContent['tables'][tableName] = content;
+
+    fs.writeFileSync(this.#dbName, JSON.stringify(dbContent), 'utf8');
+  }
+}
+
+class Table extends DbFile {
   #records;
-  constructor({ records }) {
+  #dbName;
+  #tableName;
+  constructor(dbName, tableName, { records }) {
+    super(dbName);
+    this.#dbName = dbName;
+    this.#tableName = tableName;
     this.#records = records;
   }
 
   insert(record) {
     const id = newId(this.#records);
     this.#records.push({ id, ...record });
+
+    this.writeTable(this.#tableName, { records: this.#records, fields: [] });
+
     return this.#records;
   }
 
@@ -86,6 +112,9 @@ class Table {
     const { matches, rest } = partition(this.#records, deletionPredicate);
 
     this.#records = rest;
+
+    this.writeTable(this.#tableName, { records: this.#records, fields: [] });
+
     return matches;
   }
 
@@ -100,10 +129,13 @@ class Table {
     }
 
     const updater = getUpdater(updates);
+    const recordUpdated = updater.update(record);
+
+    this.writeTable(this.#tableName, { records: this.#records, fields: [] });
 
     return {
       updateCount: 1,
-      record: updater.update(record)
+      record: recordUpdated
     };
   }
 
@@ -115,6 +147,8 @@ class Table {
     const modifiedRecords = records.map(record => {
       return updater.update(record);
     });
+
+    this.writeTable(this.#tableName, { records: this.#records, fields: [] });
 
     return {
       updateCount: modifiedRecords.length,

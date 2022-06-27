@@ -75,3 +75,16 @@ It returns updated record(s).
     ]
   }
 }
+
+{
+  tables: {
+    students: {
+      fields: [],
+      records: []
+    },
+    teachers: {
+      fields: [],
+      records: []
+    }
+  }
+}
