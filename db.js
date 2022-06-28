@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { Table } = require('./nqlLib.js');
+const { Table } = require('./src/nqlLib.js');
 
 class Db {
   #dbName;
