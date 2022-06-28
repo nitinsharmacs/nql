@@ -1,0 +1,26 @@
+{
+  "name": "nql",
+  "version": "1.0.0",
+  "description": "nql database system",
+  "main": "db.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitinsharmacs/nql.git"
+  },
+  "keywords": [
+    "database",
+    "nql"
+  ],
+  "author": "nitin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nitinsharmacs/nql/issues"
+  },
+  "homepage": "https://github.com/nitinsharmacs/nql#readme"
+}
