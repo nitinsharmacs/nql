@@ -5,7 +5,7 @@ describe('Table', () => {
   describe('insert', () => {
     it('should insert one record into the empty table', () => {
       const records = [];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const record = { name: 'john', age: 21 };
@@ -19,7 +19,7 @@ describe('Table', () => {
       const records = [
         { id: 1, name: 'john', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const record = { name: 'hemant', age: 21 };
@@ -36,7 +36,7 @@ describe('Table', () => {
       const records = [
         { id: 1, name: 'john', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const record = [
@@ -57,7 +57,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = { id: 2, name: 'hemant', age: 21 };
@@ -70,7 +70,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = undefined;
@@ -85,7 +85,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -100,7 +100,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -118,7 +118,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -135,7 +135,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 22 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -152,7 +152,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 21 },
         { id: 2, name: 'hemant', age: 22 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -170,7 +170,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'hemant', age: 22 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       let expected = [
@@ -192,7 +192,7 @@ describe('Table', () => {
         { id: 2, name: 'john', age: 21 },
         { id: 3, name: 'hemant', age: 22 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       let expected = [
@@ -216,7 +216,7 @@ describe('Table', () => {
         { id: 3, name: 'hemant', age: 22 },
         { id: 4, name: 'rehan', age: 23 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       let expected = [
@@ -238,7 +238,7 @@ describe('Table', () => {
         { id: 3, name: 'hemant', age: 22 },
         { id: 4, name: 'rehan', age: 23 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -257,7 +257,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -277,7 +277,7 @@ describe('Table', () => {
         { id: 2, name: 'john', age: 21 },
         { id: 3, name: 'john', age: 23 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -298,7 +298,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 }
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [];
@@ -313,7 +313,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 }
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = [
@@ -333,7 +333,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = {
@@ -355,7 +355,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'john', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = {
@@ -384,7 +384,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = {
@@ -410,7 +410,7 @@ describe('Table', () => {
         { id: 1, name: 'john', age: 11 },
         { id: 2, name: 'hemant', age: 21 },
       ];
-      const table = new Table({
+      const table = new Table('./db/school.json', 'student', {
         records: records
       });
       const expected = {

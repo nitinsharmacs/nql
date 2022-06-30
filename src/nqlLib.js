@@ -54,11 +54,9 @@ class DbFile {
 
 class Table extends DbFile {
   #records;
-  #dbName;
   #tableName;
   constructor(dbName, tableName, { records }) {
     super(dbName);
-    this.#dbName = dbName;
     this.#tableName = tableName;
     this.#records = records;
   }
