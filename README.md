@@ -14,6 +14,14 @@ connectDb('./db/dbfile', (err, db) => {
 });
 ```
 
+## Installation
+
+This node module can be installed using npm
+
+```
+$ npm install https://github.com/nitinsharmacs/nql
+```
+
 ## How to use?
 
 * Storing the database file is totally in your control. You can specify what database file to connect to.
