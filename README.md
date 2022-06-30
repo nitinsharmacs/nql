@@ -5,7 +5,7 @@ A database mechanism system with simple interfaces.
 ``` js
 const {connectDb} = require('nql');
 
-connectDb('./db/dbfile', (err, db) {
+connectDb('./db/dbfile', (err, db) => {
   if (err) {
     console.log(err);
   }
@@ -28,7 +28,7 @@ connectDb('./db/dbfile', (err, db) {
 ``` js
 const {createDb} = require('nql');
 
-createDb('./db/dbfile', (err) {
+createDb('./db/dbfile', (err) => {
   if (err) {
     throw new Error(err);
   }
@@ -43,7 +43,7 @@ createDb('./db/dbfile', (err) {
 ``` js
 const {connectDb} = require('nql');
 
-connectDb('./db/dbfile', (err, db) {
+connectDb('./db/dbfile', (err, db) => {
   if (err) {
     console.log(err);
   }

@@ -67,12 +67,19 @@ const connectDb = (dbName, cb) => {
   });
 };
 
-const createDb = (dbName) => {
+const createDb = (dbName, cb) => {
   const db = {
     tables: {}
   };
 
-  fs.writeFileSync(dbName, JSON.stringify(db), 'utf8');
+  fs.writeFile(dbName, JSON.stringify(db), 'utf8', (err) => {
+    if (err) {
+      cb(err);
+      return;
+    }
+
+    cb(null);
+  });
 };
 
 module.exports = { connectDb, createDb };
