@@ -14,7 +14,7 @@ const newId = (tableEntries) => {
     return 1;
   }
 
-  return lastEntry.id + 1;
+  return lastEntry.objectId + 1;
 };
 
 const isEmpty = (obj) => {
@@ -62,8 +62,8 @@ class Table extends DbFile {
   }
 
   insert(record) {
-    const id = newId(this.#records);
-    this.#records.push({ id, ...record });
+    const objectId = newId(this.#records);
+    this.#records.push({ objectId, ...record });
 
     this.writeTable(this.#tableName, { records: this.#records, fields: [] });
 
